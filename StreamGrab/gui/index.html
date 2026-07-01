@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>StreamGrab</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css" />
+</head>
+<body>
+  <div class="glow glow-a"></div>
+  <div class="glow glow-b"></div>
+
+  <div class="app">
+    <header class="titlebar">
+      <div class="brand">
+        <div class="brand-icon"><i class="ti ti-player-play"></i></div>
+        <span>StreamGrab</span>
+      </div>
+      <nav class="titlebar-actions">
+        <button class="icon-btn" id="historyBtn" title="History"><i class="ti ti-history"></i></button>
+        <button class="icon-btn" id="settingsBtn" title="Settings"><i class="ti ti-settings"></i></button>
+      </nav>
+    </header>
+
+    <main class="content">
+      <section class="fetch-row">
+        <div class="url-input">
+          <i class="ti ti-link"></i>
+          <input id="urlInput" type="text" placeholder="Paste a video or playlist url" />
+        </div>
+        <button id="fetchBtn" class="glow-btn"><i class="ti ti-download"></i> Fetch</button>
+      </section>
+
+      <section id="videoCard" class="video-card hidden">
+        <img id="videoThumb" class="thumb" src="" alt="" />
+        <div class="video-meta">
+          <p id="videoTitle" class="video-title">-</p>
+          <p id="videoSub" class="video-sub">-</p>
+        </div>
+      </section>
+
+      <section id="optionsSection" class="options-section hidden">
+        <div class="option-grid">
+          <div class="option">
+            <label>video quality</label>
+            <select id="videoQuality"></select>
+          </div>
+          <div class="option">
+            <label>audio quality</label>
+            <select id="audioQuality"></select>
+          </div>
+          <div class="option">
+            <label>container</label>
+            <select id="containerFormat">
+              <option value="mp4">MP4</option>
+              <option value="mkv">MKV</option>
+              <option value="webm">WEBM</option>
+              <option value="mp3">MP3 (audio only)</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="section-label">presets</label>
+        <div id="presetRow" class="preset-row"></div>
+
+        <div class="save-preset-row hidden" id="savePresetRow">
+          <input id="presetNameInput" type="text" placeholder="Preset name" />
+          <button id="confirmSavePreset" class="mini-btn">Save</button>
+          <button id="cancelSavePreset" class="mini-btn ghost">Cancel</button>
+        </div>
+
+        <button id="downloadBtn" class="glow-btn full"><i class="ti ti-arrow-down-circle"></i> Download</button>
+      </section>
+
+      <section id="progressSection" class="progress-section hidden">
+        <div class="progress-info">
+          <span id="progressStatus">Downloading</span>
+          <span id="progressStats"></span>
+        </div>
+        <div class="progress-track">
+          <div id="progressFill" class="progress-fill" style="width:0%"></div>
+        </div>
+        <button id="cancelBtn" class="mini-btn ghost">Cancel</button>
+      </section>
+    </main>
+  </div>
+
+  <div id="historyPanel" class="panel hidden">
+    <div class="panel-header">
+      <span>Download history</span>
+      <div>
+        <button id="clearHistoryBtn" class="mini-btn ghost">Clear</button>
+        <button class="icon-btn close-panel" data-panel="historyPanel"><i class="ti ti-x"></i></button>
+      </div>
+    </div>
+    <div id="historyList" class="panel-body"></div>
+  </div>
+
+  <div id="settingsPanel" class="panel hidden">
+    <div class="panel-header">
+      <span>Settings</span>
+      <button class="icon-btn close-panel" data-panel="settingsPanel"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="panel-body">
+      <label class="section-label">download folder</label>
+      <div class="folder-row">
+        <span id="folderPath" class="folder-path">-</span>
+        <button id="chooseFolderBtn" class="mini-btn">Change</button>
+      </div>
+      <button id="openFolderBtn" class="mini-btn ghost" style="margin-top:12px;">Open folder</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
