@@ -35,7 +35,7 @@ DEFAULT_DOWNLOAD_DIR = str(Path.home() / "Downloads" / "StreamGrab")
 
 BUILTIN_PRESETS = [
     {
-        "name": "Fastest \u00b7 best quality",
+        "name": "Fastest · best quality",
         "builtin": True,
         "description": "Best available video+audio, remuxed only (no re-encode) for max speed.",
         "video_quality": "best",
@@ -44,7 +44,7 @@ BUILTIN_PRESETS = [
         "fast_mode": True,
     },
     {
-        "name": "Archive \u00b7 MKV 4K",
+        "name": "Archive · MKV 4K",
         "builtin": True,
         "description": "Highest quality video+audio packaged into MKV.",
         "video_quality": "2160p",
@@ -53,7 +53,7 @@ BUILTIN_PRESETS = [
         "fast_mode": False,
     },
     {
-        "name": "Audio only \u00b7 MP3",
+        "name": "Audio only · MP3",
         "builtin": True,
         "description": "Extracts audio only as a 320kbps MP3.",
         "video_quality": "none",
@@ -62,7 +62,7 @@ BUILTIN_PRESETS = [
         "fast_mode": True,
     },
     {
-        "name": "Small file \u00b7 720p",
+        "name": "Small file · 720p",
         "builtin": True,
         "description": "720p video, compact size, good for sharing.",
         "video_quality": "720p",
@@ -71,6 +71,27 @@ BUILTIN_PRESETS = [
         "fast_mode": True,
     },
 ]
+
+
+def resource_path(relative_path):
+    """
+    Resolve a path to a bundled resource.
+    
+    When running normally (python main.py):
+        Returns: <project_root>/relative_path
+    
+    When running as a PyInstaller --onefile executable:
+        PyInstaller extracts bundled files to a temporary folder stored in sys._MEIPASS.
+        Returns: <temp_bundle_folder>/relative_path
+    
+    This allows the same code to find gui files and ffmpeg.exe regardless of how the app is run.
+    """
+    if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
+        # Running as a bundled .exe (PyInstaller --onefile mode)
+        return Path(sys._MEIPASS) / relative_path
+    else:
+        # Running normally from source (python main.py)
+        return Path(__file__).parent / relative_path
 
 
 def _ensure_config():
@@ -285,6 +306,7 @@ class Api:
             "quiet": True,
             "no_warnings": True,
             "noplaylist": not payload.get("is_playlist", False),
+            "ffmpeg_location": str(resource_path("ffmpeg.exe")),
         }
 
         if audio_only:
@@ -319,7 +341,7 @@ class Api:
 
 def main():
     api = Api()
-    gui_dir = Path(__file__).parent / "gui"
+    gui_dir = resource_path("gui")
     window = webview.create_window(
         APP_NAME,
         str(gui_dir / "index.html"),
